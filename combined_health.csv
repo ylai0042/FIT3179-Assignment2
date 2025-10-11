@@ -1,0 +1,51 @@
+dataset,group_type,group,sex,persons,population,rate_per_1000,value
+mental_behavioural_by_state,state,New South Wales,All,1784300,8511000,209.65,
+mental_behavioural_by_state,state,Victoria,All,1678600,6719000,249.83,
+mental_behavioural_by_state,state,Queensland,All,1600900,5461000,293.15,
+mental_behavioural_by_state,state,South Australia,All,512500,1816000,282.21,
+mental_behavioural_by_state,state,Western Australia,All,727800,2844000,255.91,
+mental_behavioural_by_state,state,Tasmania,All,164900,571000,288.79,
+mental_behavioural_by_state,state,Northern Territory,All,39200,251000,156.18,
+mental_behavioural_by_state,state,Australian Capital Territory,All,125600,454000,276.65,
+anxiety_by_sex,disorder,Panic Disorder,Male,,,,434700
+anxiety_by_sex,disorder,Agoraphobia,Male,,,,592900
+anxiety_by_sex,disorder,Social Phobia,Male,,,,1048000
+anxiety_by_sex,disorder,Generalised Anxiety Disorder,Male,,,,571200
+anxiety_by_sex,disorder,Obsessive-Compulsive Disorder,Male,,,,349000
+anxiety_by_sex,disorder,Post-Traumatic Stress Disorder,Male,,,,730600
+anxiety_by_sex,disorder,Any Anxiety disorder,Male,,,,2261100
+anxiety_by_sex,disorder,Panic Disorder,Female,,,,809900
+anxiety_by_sex,disorder,Agoraphobia,Female,,,,1135900
+anxiety_by_sex,disorder,Social Phobia,Female,,,,1579000
+anxiety_by_sex,disorder,Generalised Anxiety Disorder,Female,,,,1048500
+anxiety_by_sex,disorder,Obsessive-Compulsive Disorder,Female,,,,463900
+anxiety_by_sex,disorder,Post-Traumatic Stress Disorder,Female,,,,1381000
+anxiety_by_sex,disorder,Any Anxiety disorder,Female,,,,3439300
+affective_by_sex,disorder,Depressive Episode,Male,,,,910200
+affective_by_sex,disorder,Dysthymia,Male,,,,185800
+affective_by_sex,disorder,Bipolar Affective Disorder,Male,,,,329600
+affective_by_sex,disorder,Any Affective disorder,Male,,,,1302500
+affective_by_sex,disorder,Depressive Episode,Female,,,,1392900
+affective_by_sex,disorder,Dysthymia,Female,,,,293100
+affective_by_sex,disorder,Bipolar Affective Disorder,Female,,,,366200
+affective_by_sex,disorder,Any Affective disorder,Female,,,,1865300
+substance_by_sex,disorder,Alcohol Harmful Use,Male,,,,1907800
+substance_by_sex,disorder,Alcohol Dependence,Male,,,,446300
+substance_by_sex,disorder,Total Alcohol Use Disorders,Male,,,,2334700
+substance_by_sex,disorder,Drug Abuse,Male,,,,571900
+substance_by_sex,disorder,Drug Dependence,Male,,,,269800
+substance_by_sex,disorder,Total Drug Use Disorders,Male,,,,753200
+substance_by_sex,disorder,Any Substance Use disorder,Male,,,,2546200
+substance_by_sex,disorder,Alcohol Harmful Use,Female,,,,914400
+substance_by_sex,disorder,Alcohol Dependence,Female,,,,297700
+substance_by_sex,disorder,Total Alcohol Use Disorders,Female,,,,1197800
+substance_by_sex,disorder,Drug Abuse,Female,,,,286000
+substance_by_sex,disorder,Drug Dependence,Female,,,,138400
+substance_by_sex,disorder,Total Drug Use Disorders,Female,,,,396600
+substance_by_sex,disorder,Any Substance Use disorder,Female,,,,1329500
+lifetime_by_sex,disorder,Any lifetime mental disorder,Male,,,,4116900
+lifetime_by_sex,disorder,No lifetime mental disorder,Male,,,,5644100
+lifetime_by_sex,disorder,Total,Male,,,,9761100
+lifetime_by_sex,disorder,Any lifetime mental disorder,Female,,,,4386700
+lifetime_by_sex,disorder,No lifetime mental disorder,Female,,,,5671100
+lifetime_by_sex,disorder,Total,Female,,,,10061400
