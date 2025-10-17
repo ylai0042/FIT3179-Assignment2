@@ -115,6 +115,65 @@ All charts are declared as inline Vega-Lite JSON specs and embedded with `vegaEm
 
 ---
 
+## Week 12 Studio Interview (Hurdle) — Demo Guide
+
+What to bring
+- Laptop with this project folder, including `index.html`, `combined_health.csv`, `au_admin_1_states_provinces.json`, and the original source CSVs under `csv/`.
+- Internet connection for CDN scripts (or have offline copies of Vega, Vega-Lite, and vega-embed if needed).
+
+How to run (in session)
+- Start the local server (see "How to open locally").
+- Open `http://localhost:5500/` and keep `index.html` and `combined_health.csv` visible in your editor for reference.
+
+One construction step to demonstrate (choose one)
+1) Map: join TopoJSON to CSV and derive rates
+   - Explain: Filter AU states/territories; join to CSV by name; compute a fallback rate.
+   - Snippet:
+```json
+"transform": [
+  { "filter": { "field": "properties.name", "oneOf": [
+    "New South Wales","Victoria","Queensland","South Australia",
+    "Western Australia","Tasmania","Northern Territory","Australian Capital Territory"
+  ]}},
+  { "lookup": "properties.name",
+    "from": { "data": { "url": "combined_health.csv" },
+               "key": "group", "fields": ["persons","population","rate_per_1000"] } },
+  { "calculate": "isValid(datum.rate_per_1000) ? datum.rate_per_1000 : (datum.persons/datum.population)*1000",
+    "as": "Rate_per_1000" }
+]
+```
+
+2) Grouped bars: clean data, add interactions, annotate
+   - Explain: Filter dataset subset; convert numbers; guard invalids; add dropdown and legend selection; compute highest.
+   - Snippet:
+```json
+"params": [{ "name": "disSelect", "value": "All", "bind": { "input": "select", "options": ["All", "Panic Disorder", "Agoraphobia", "Social Phobia", "Generalised Anxiety Disorder", "Obsessive-Compulsive Disorder", "Post-Traumatic Stress Disorder", "Any Anxiety disorder"] } }],
+"transform": [
+  { "filter": "datum.dataset==='anxiety_by_sex'" },
+  { "calculate": "toNumber(datum.value)", "as": "value" },
+  { "filter": "isValid(datum.value)" }
+]
+```
+
+3) Donut: composition and filtering
+   - Explain: Exclude `Total` to avoid double counting; optional param to focus on a category.
+   - Snippet:
+```json
+"transform": [
+  { "filter": "datum.dataset==='lifetime_by_sex'" },
+  { "calculate": "toNumber(datum.value)", "as": "value" },
+  { "filter": "isValid(datum.value)" },
+  { "filter": "datum.group !== 'Total'" }
+]
+```
+
+Tips for passing the hurdle
+- Show the relevant rows in `combined_health.csv` that drive the chart you’re demonstrating.
+- Talk through why the chosen idiom supports the user task (comparison, composition, or spatial pattern).
+- Point out robustness features (`toNumber`, `isValid`, derived rate) and how they keep visuals consistent.
+
+---
+
 ## Troubleshooting
 - Blank charts: Ensure you are opening via a web server (not double-clicking the file). Use the quick start above.
 - 404 errors:
