@@ -155,12 +155,12 @@
 
   <figure class="card">
     <h2>Mental &amp; Behavioural Conditions by State (Australia) 2022</h2>
-    <p class="subtitle">Choropleth map showing mental health rates per 1,000 people across Australian states with red color scheme.</p>
-    <p class="chart-desc">Rates per 1,000 residents by state/territory; darker red indicates higher prevalence.</p>
+    <p class="subtitle">Choropleth map of mental health rates per 1,000 people across Australian states using a soft red palette on a blue ocean background.</p>
+    <p class="chart-desc">Rates per 1,000 residents by state/territory. A white callout box highlights the state with the highest rate.</p>
     <div id="map"></div>
     <figcaption>
-      Projection: Albers; includes graticule and reference outlines. Color intensity represents mental health rates per 1,000 residents using red color scheme.  
-      Note: Darker red colors indicate higher prevalence rates; lighter red colors indicate lower rates.
+      Projection: Albers; includes graticule and reference outlines. Color intensity represents mental health rates per 1,000 residents using a soft red color scheme.  
+      Note: darker reds indicate higher prevalence; lighter reds indicate lower rates. A labelled text box annotates the state with the highest rate for quick reference.
       Source: ABS National Health Survey 2022 (Table 2.1 counts) + ABS ERP 2022 (population). Geometry: Natural Earth Admin-1 for Australia.
     </figcaption>
   </figure>
@@ -262,11 +262,11 @@
 // -------------------- ASSIGNMENT 2 MAP --------------------
 const mapSpec = {
   "$schema":"https://vega.github.io/schema/vega-lite/v5.json",
-  "width":800,"height":550,"padding":20,
+  "width":800,"height":580,"padding":20,
   "projection":{"type":"albers","rotate":[-134,0,0],"center":[0,-28],"parallels":[-18,-36],"scale":900},
   "layer":[
-    {"data":{"sphere":{}},"mark":{"type":"geoshape","fill":"#F8F9FA"}},
-    {"data":{"graticule":{"step":[20,20]}},"mark":{"type":"geoshape","stroke":"#E9ECEF","strokeWidth":0.8,"filled":false}},
+    {"data":{"sphere":{}},"mark":{"type":"geoshape","fill":"#86C8E1"}},
+    {"data":{"graticule":{"step":[20,20]}},"mark":{"type":"geoshape","stroke":"#7bb8cf","strokeWidth":0.8,"filled":false}},
     {
       "data":{"url":"au_admin_1_states_provinces.json","format":{"type":"topojson","feature":"ne_10m_admin_1_states_provinces"}},
       "transform":[
@@ -278,13 +278,42 @@ const mapSpec = {
       ],
       "mark":{"type":"geoshape","stroke":"#fff","strokeWidth":2},
       "encoding":{
-        "color":{"field":"Rate_per_1000","type":"quantitative","title":"Mental Health Rate per 1,000","scale":{"scheme":"reds","range":["#FFF5F5","#7F1D1D"]}},
+        "color":{"field":"Rate_per_1000","type":"quantitative","title":"Mental Health Rate per 1,000","scale":{"range":["#FFE9E6","#FFB8B2","#FF8A80"]}},
         "tooltip":[
           {"field":"properties.name","title":"State / Territory"},
           {"field":"persons","type":"quantitative","title":"Total Cases","format":",.0f"},
           {"field":"population","type":"quantitative","title":"Population (ERP 2022)","format":",.0f"},
           {"field":"Rate_per_1000","type":"quantitative","title":"Rate per 1,000","format":",.1f"}
         ]
+      }
+    },
+    {
+      "data": {"values": [
+        {"group":"New South Wales","lon":147.0,"lat":-33.5},
+        {"group":"Victoria","lon":144.5,"lat":-37.0},
+        {"group":"Queensland","lon":145.0,"lat":-20.0},
+        {"group":"South Australia","lon":135.0,"lat":-30.0},
+        {"group":"Western Australia","lon":122.0,"lat":-25.0},
+        {"group":"Tasmania","lon":146.7,"lat":-42.0},
+        {"group":"Northern Territory","lon":133.0,"lat":-20.0},
+        {"group":"Australian Capital Territory","lon":149.1,"lat":-35.4}
+      ]},
+      "transform": [
+        {"lookup":"group",
+         "from": {"data":{"url":"combined_health.csv","format":{"type":"csv","parse":{"persons":"number","population":"number","rate_per_1000":"number"}}},
+                   "key":"group","fields":["dataset","persons","population","rate_per_1000"]}
+        },
+        {"filter":"datum.dataset==='mental_behavioural_by_state'"},
+        {"calculate":"isValid(datum.rate_per_1000) ? datum.rate_per_1000 : (datum.persons/datum.population)*1000","as":"Rate_per_1000"},
+        {"window":[{"op":"rank","as":"rk"}],"sort":[{"field":"Rate_per_1000","order":"descending"}]},
+        {"filter":"datum.rk===1"},
+        {"calculate":"datum.group + ' — highest rate'","as":"note"}
+      ],
+      "mark":{"type":"text","align":"left","dx":10,"dy":-10,"fontSize":12,"fontWeight":"bold","color":"#111","background":"#ffffff","cornerRadius":4,"lineHeight":14,"tooltip":null,"padding":4},
+      "encoding":{
+        "longitude":{"field":"lon","type":"quantitative"},
+        "latitude":{"field":"lat","type":"quantitative"},
+        "text":{"field":"note"}
       }
     }
   ],
@@ -294,7 +323,7 @@ const mapSpec = {
 const barsSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": 900,
-  "height": 480,
+  "height": 450,
   "padding": 20,
   "data": { "url": "combined_health.csv" },
   "params": [
