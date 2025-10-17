@@ -17,40 +17,46 @@
     --bg:#fcfcfd;
     --panel:#fff;
     --border:#e6e6e6;
+    --primary:#2563eb;
+    --shadow:0 6px 14px rgba(17,24,39,0.08);
   }
   body {
     font-family: system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
     margin: 24px;
-    background: var(--bg);
+    background: linear-gradient(180deg, #fff7ed 0%, #ffffff 70%);
     color: var(--ink);
   }
   .wrap {max-width:1100px;margin:auto}
-  h1 {line-height:1.25;margin:0 0 6px;text-align:center}
-  .meta {margin:6px 0 20px;color:var(--muted);text-align:center}
+  h1 {line-height:1.2;margin:0 0 8px;text-align:center;letter-spacing:.2px}
+  .meta {margin:8px 0 22px;color:var(--muted);text-align:center}
   .card {
     background:var(--panel);
     border:1px solid var(--border);
-    border-radius:12px;
-    padding:16px;
-    margin-bottom:22px;
+    border-radius:14px;
+    padding:18px 18px 16px;
+    margin-bottom:24px;
+    box-shadow: var(--shadow);
+    transition: transform .2s ease, box-shadow .2s ease;
   }
   .card h2 {margin:0 0 4px}
-  .subtitle {color:var(--muted);font-size:0.95rem;margin-bottom:10px;text-align:center}
+  .subtitle {color:var(--ink);font-size:1rem;margin-bottom:8px;text-align:center;font-weight:600}
+  .chart-desc {color:var(--ink);font-size:0.98rem;margin:6px 0 12px;text-align:center;font-weight:500}
   figure {margin:0}
   figcaption {margin-top:8px;font-size:.9rem;color:var(--muted)}
   
   /* Storytelling sections styling */
   .story-section {
-    background: #f8f9fa;
-    border-radius: 10px;
-    padding: 30px;
-    margin: 30px 0;
-    border-left: 4px solid #007bff;
+    background: #fff6ed;
+    border-radius: 14px;
+    padding: 28px 30px;
+    margin: 28px 0 26px;
+    border: 1px solid #ffe7d2;
+    box-shadow: var(--shadow);
   }
   
   .story-section h2 {
-    color: #2c3e50;
-    margin-bottom: 20px;
+    color: #1f2a44;
+    margin-bottom: 14px;
     font-size: 1.5rem;
   }
   
@@ -86,7 +92,7 @@
   }
   
   .insight-item h3 {
-    color: #007bff;
+    color: var(--primary);
     margin-bottom: 10px;
     font-size: 1.1rem;
   }
@@ -96,14 +102,34 @@
     font-size: 0.95rem;
   }
   
+  .chart-callout {
+    margin-top: 10px;
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    color: #495057;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+  }
+  .lifetime-wrap {position: relative}
+  .chart-callout--right {position:absolute; right:12px; top:160px; width:360px; max-width:42%}
+  @media (max-width: 900px){
+    .chart-callout--right {position: static; width:auto; margin-top:10px}
+  }
+  
   .conclusion-note {
-    background: #e3f2fd;
+    background: #fff4e5;
     padding: 20px;
     border-radius: 8px;
-    border-left: 4px solid #2196f3;
+    border-left: 4px solid #f59e0b;
     margin-top: 25px;
     font-style: italic;
   }
+  
+  .meta a {color: var(--primary); text-decoration: none}
+  .meta a:hover {text-decoration: underline}
 </style>
 </head>
 
@@ -130,6 +156,7 @@
   <figure class="card">
     <h2>Mental &amp; Behavioural Conditions by State (Australia) 2022</h2>
     <p class="subtitle">Choropleth map showing mental health rates per 1,000 people across Australian states with red color scheme.</p>
+    <p class="chart-desc">Rates per 1,000 residents by state/territory; darker red indicates higher prevalence.</p>
     <div id="map"></div>
     <figcaption>
       Projection: Albers; includes graticule and reference outlines. Color intensity represents mental health rates per 1,000 residents using red color scheme.  
@@ -141,6 +168,7 @@
   <figure class="card">
     <h2>Anxiety Disorders by Sex (2020–2022)</h2>
     <p class="subtitle">Grouped bar chart comparing anxiety-disorder prevalence by sex. Includes legend selection, dropdown filter, and annotations for highest and lowest prevalence.</p>
+    <p class="chart-desc">Compare anxiety disorder categories by sex; use legend and dropdown to focus.</p>
     <div id="bars"></div>
     <figcaption>
       Interactions: click legend to filter by sex; use dropdown to focus on a specific disorder. Annotations highlight the highest and lowest prevalence disorders.
@@ -151,6 +179,7 @@
   <figure class="card">
     <h2>Affective Disorders by Sex (2020–2022)</h2>
     <p class="subtitle">Horizontal bar chart comparing affective disorder prevalence by sex with gradient color scheme.</p>
+    <p class="chart-desc">Horizontal bars compare depressive episode, dysthymia, bipolar, and overall by sex.</p>
     <div id="affective"></div>
     <figcaption>
       Horizontal layout provides better readability for disorder names. Gradient colors differentiate between disorders.
@@ -161,6 +190,7 @@
   <figure class="card">
     <h2>Substance Use Disorders by Sex (2020–2022)</h2>
     <p class="subtitle">Area chart showing substance use disorder prevalence by sex with smooth curves and transparency.</p>
+    <p class="chart-desc">Overlapping areas show magnitude and male/female differences across substance categories.</p>
     <div id="substance"></div>
     <figcaption>
       Area chart format emphasizes the magnitude differences between disorders. Semi-transparent overlays show gender differences.
@@ -171,10 +201,13 @@
   <figure class="card">
     <h2>Lifetime Mental Disorders Summary by Sex (2020–2022)</h2>
     <p class="subtitle">Donut chart displaying the proportion of people with and without lifetime mental disorders, comparing male and female populations.</p>
-    <div id="lifetime"></div>
-    <div style="margin-top: -190px; margin-left: 10px; padding: 8px 12px; background: white; border-radius: 5px; font-size: 11px; color: #495057; display: inline-block; float: right; border: 1px solid #e9ecef; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-      <div>Males have higher numbers in 'No lifetime mental disorder' (5.6M)</div>
-      <div>Females have higher numbers in 'Any lifetime mental disorder' (4.4M)</div>
+    <p class="chart-desc">Composition of “Any lifetime mental disorder” vs “No lifetime mental disorder” by sex.</p>
+    <div class="lifetime-wrap">
+      <div id="lifetime"></div>
+      <div class="chart-callout chart-callout--right">
+        <div><strong>Males</strong> are higher in <strong>“No lifetime mental disorder”</strong> (~5.6M).</div>
+        <div><strong>Females</strong> are higher in <strong>“Any lifetime mental disorder”</strong> (~4.4M).</div>
+      </div>
     </div>
     <figcaption>
       Donut chart shows the distribution of mental health status across genders. Use the dropdown to filter by specific disorder types.
@@ -217,13 +250,19 @@
     <p class="meta">
       Author: Yishu Lai · Data sources: ABS National Health Survey 2022 (Table 2.1) and ABS National Study of Mental Health and Wellbeing 2020–22.
     </p>
+    <p class="meta">
+      Sources:
+      <a href="https://www.abs.gov.au/statistics/health/mental-health/national-study-mental-health-and-wellbeing/latest-release" target="_blank" rel="noopener">ABS National Study of Mental Health and Wellbeing — latest release</a>
+      ·
+      <a href="https://www.abs.gov.au/statistics/health/health-conditions-and-risks/national-health-survey/latest-release?utm_source=chatgpt.com#data-downloads" target="_blank" rel="noopener">ABS National Health Survey — latest release (Data downloads)</a>
+    </p>
 </div>
 
 <script>
 // -------------------- ASSIGNMENT 2 MAP --------------------
 const mapSpec = {
   "$schema":"https://vega.github.io/schema/vega-lite/v5.json",
-  "width":1040,"height":540,"padding":20,
+  "width":800,"height":550,"padding":20,
   "projection":{"type":"albers","rotate":[-134,0,0],"center":[0,-28],"parallels":[-18,-36],"scale":900},
   "layer":[
     {"data":{"sphere":{}},"mark":{"type":"geoshape","fill":"#F8F9FA"}},
@@ -254,8 +293,8 @@ const mapSpec = {
 // -------------------- ASSIGNMENT 2 CHART --------------------
 const barsSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 1040,
-  "height": 520,
+  "width": 900,
+  "height": 480,
   "padding": 20,
   "data": { "url": "combined_health.csv" },
   "params": [
@@ -280,8 +319,7 @@ const barsSpec = {
   "transform": [
     { "filter": "datum.dataset==='anxiety_by_sex'" },
     { "calculate": "toNumber(datum.value)", "as": "value" },
-    { "filter": "isValid(datum.value)" },
-    { "filter": "disSelect==='All'|| datum.group===disSelect" }
+    { "filter": "isValid(datum.value)" }
   ],
   "layer": [
     // --- base grouped bars instead of stacked
@@ -318,9 +356,15 @@ const barsSpec = {
           "field": "sex", 
           "type": "nominal", 
           "title": "Gender",
-          "scale": {"scheme": "viridis"}
+          "scale": {"domain":["Female","Male"],"range":["#2563eb","#f59e0b"]}
         },
-        "opacity": { "condition": { "param": "sexSelect", "value": 1 }, "value": 0.4 },
+        "opacity": {
+          "condition": [
+            { "test": "disSelect==='All' || datum.group===disSelect", "value": 1 },
+            { "param": "sexSelect", "value": 0.8 }
+          ],
+          "value": 0.2
+        },
         "tooltip": [
           { "field": "group", "title": "Anxiety Disorder" },
           { "field": "sex", "title": "Gender" },
@@ -391,6 +435,28 @@ const barsSpec = {
           }
         }
       ]
+    },
+    // --- annotation that follows dropdown selection (single anxiety disorder chosen)
+    {
+      "transform": [
+        { "filter": "disSelect!=='All'" },
+        { "aggregate": [{ "op": "sum", "field": "value", "as": "total" }], "groupby": ["group"] },
+        { "filter": "datum.group===disSelect" },
+        { "calculate": "datum.group + ' (selected)'", "as": "note" }
+      ],
+      "mark": { 
+        "type": "text", 
+        "align": "center", 
+        "fontSize": 12, 
+        "fontWeight": "bold", 
+        "color": "#111", 
+        "dy": -18 
+      },
+      "encoding": {
+        "x": { "field": "group", "type": "nominal" },
+        "y": { "field": "total", "type": "quantitative" },
+        "text": { "field": "note" }
+      }
     }
   ],
   "config": {
@@ -404,8 +470,8 @@ const barsSpec = {
 // -------------------- ASSIGNMENT 2 AFFECTIVE CHART --------------------
 const affectiveSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 1040,
-  "height": 400,
+  "width": 800,
+  "height": 360,
   "padding": 20,
   "data": { "url": "combined_health.csv" },
   "params": [
@@ -427,8 +493,7 @@ const affectiveSpec = {
   "transform": [
     { "filter": "datum.dataset==='affective_by_sex'" },
     { "calculate": "toNumber(datum.value)", "as": "value" },
-    { "filter": "isValid(datum.value)" },
-    { "filter": "affectiveSelect==='All'|| datum.group===affectiveSelect" }
+    { "filter": "isValid(datum.value)" }
   ],
   "layer": [
     {
@@ -467,9 +532,15 @@ const affectiveSpec = {
           "field": "sex", 
           "type": "nominal", 
           "title": "Gender",
-          "scale": {"scheme": "category10"}
+          "scale": {"domain":["Female","Male"],"range":["#2563eb","#f59e0b"]}
         },
-        "opacity": { "condition": { "param": "affectiveSexSelect", "value": 1 }, "value": 0.3 },
+        "opacity": {
+          "condition": [
+            { "test": "affectiveSelect==='All' || datum.group===affectiveSelect", "value": 1 },
+            { "param": "affectiveSexSelect", "value": 0.8 }
+          ],
+          "value": 0.2
+        },
         "tooltip": [
           { "field": "group", "title": "Affective Disorder" },
           { "field": "sex", "title": "Gender" },
@@ -509,34 +580,14 @@ const affectiveSpec = {
 // -------------------- ASSIGNMENT 2 SUBSTANCE CHART --------------------
 const substanceSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 1040,
-  "height": 400,
+  "width": 850,
+  "height": 360,
   "padding": 20,
   "data": { "url": "combined_health.csv" },
-  "params": [
-    {
-      "name": "substanceSelect",
-      "value": "All",
-      "bind": {
-        "input": "select",
-        "options": [
-          "All",
-          "Alcohol Harmful Use",
-          "Alcohol Dependence",
-          "Total Alcohol Use Disorders",
-          "Drug Abuse",
-          "Drug Dependence",
-          "Total Drug Use Disorders",
-          "Any Substance Use disorder"
-        ]
-      }
-    }
-  ],
   "transform": [
     { "filter": "datum.dataset==='substance_by_sex'" },
     { "calculate": "toNumber(datum.value)", "as": "value" },
-    { "filter": "isValid(datum.value)" },
-    { "filter": "substanceSelect==='All'|| datum.group===substanceSelect" }
+    { "filter": "isValid(datum.value)" }
   ],
   "layer": [
     {
@@ -575,9 +626,9 @@ const substanceSpec = {
           "field": "sex", 
           "type": "nominal", 
           "title": "Gender",
-          "scale": {"scheme": "set2"}
+          "scale": {"domain":["Female","Male"],"range":["#2563eb","#f59e0b"]}
         },
-        "opacity": { "condition": { "param": "substanceSexSelect", "value": 0.7 }, "value": 0.2 },
+        "opacity": { "condition": { "param": "substanceSexSelect", "value": 0.7 }, "value": 0.25 },
         "tooltip": [
           { "field": "group", "title": "Substance Use Disorder" },
           { "field": "sex", "title": "Gender" },
@@ -587,7 +638,6 @@ const substanceSpec = {
     },
     {
       "transform": [
-        { "filter": "substanceSelect==='All'" },
         { "aggregate": [{ "op": "sum", "field": "value", "as": "total" }], "groupby": ["group"] },
         { "window": [{ "op": "rank", "as": "rk" }], "sort": [{ "field": "total", "order": "descending" }] },
         { "filter": "datum.rk===1" }
@@ -617,8 +667,8 @@ const substanceSpec = {
 // -------------------- ASSIGNMENT 2 LIFETIME CHART --------------------
 const lifetimeSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 600,
-  "height": 400,
+  "width": 560,
+  "height": 300,
   "padding": 20,
   "data": { "url": "combined_health.csv" },
   "params": [
@@ -657,7 +707,7 @@ const lifetimeSpec = {
       "field": "sex", 
       "type": "nominal", 
       "title": "Gender",
-      "scale": {"scheme": "tableau10"}
+      "scale": {"domain":["Female","Male"],"range":["#2563eb","#f59e0b"]}
     },
     "tooltip": [
       { "field": "group", "title": "Mental Health Status" },
